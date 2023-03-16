@@ -17,4 +17,6 @@ NotificationBanner is an extremely customizable and lightweight library that mak
     s.swift_version = '5.0'
     s.source_files = 'Sources/SnapshotTesting/**/*'
 
+    s.frameworks = 'XCTest'
+
 end
