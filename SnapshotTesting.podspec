@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint swift-snapshot-testing.podspec' to ensure this is a
+# Be sure to run `pod lib lint SnapshotTesting.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'swift-snapshot-testing'
+  s.name             = 'SnapshotTesting'
   s.version          = '0.0.0'
   s.summary          = 'Snapshot tests'
 
