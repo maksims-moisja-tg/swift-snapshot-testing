@@ -186,6 +186,11 @@ public func verifySnapshot<Value, Format>(
           .appendingPathComponent("__Snapshots__")
           .appendingPathComponent(fileName)
 
+      let artifactsSubUrl = fileUrl
+        .deletingLastPathComponent()
+        .deletingLastPathComponent()
+        .appendingPathComponent("SnapshotFailures")
+
       let identifier: String
       if let name = name {
         identifier = sanitizePathComponent(name)
@@ -278,7 +283,6 @@ public func verifySnapshot<Value, Format>(
         return nil
       }
 
-      let artifactsSubUrl = snapshotDirectoryUrl.appendingPathComponent("SnapshotFailures")
       try fileManager.createDirectory(at: artifactsSubUrl, withIntermediateDirectories: true)
       let failedSnapshotFileUrl = artifactsSubUrl.appendingPathComponent(snapshotFileUrl.lastPathComponent)
       try snapshotting.diffing.toData(diffable).write(to: failedSnapshotFileUrl)
