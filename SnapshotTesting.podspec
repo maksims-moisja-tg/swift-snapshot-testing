@@ -11,7 +11,7 @@ NotificationBanner is an extremely customizable and lightweight library that mak
     s.homepage         = 'https://github.com/maksims-moisja-tg/swift-snapshot-testing/'
     s.license          = { :type => 'MIT', :file => 'LICENSE' }
     s.author           = { 'mm' => 'maksims.moisja@transfergo.com' }
-    s.source           = { :git => 'https://github.com/maksims-moisja-tg/swift-snapshot-testing.git', :tag => s.version.to_s }
+    s.source           = { :git => 'git@github.com:maksims-moisja-tg/swift-snapshot-testing.git', :tag => s.version.to_s }
 
     s.ios.deployment_target = '14.0'
     s.swift_version = '5.0'
