@@ -184,7 +184,6 @@ public func verifySnapshot<Value, Format>(
         ?? fileUrl
           .deletingLastPathComponent()
           .appendingPathComponent("__Snapshots__")
-          .appendingPathComponent(fileName)
 
       let artifactsSubUrl = fileUrl
         .deletingLastPathComponent()
@@ -206,6 +205,9 @@ public func verifySnapshot<Value, Format>(
       let testName = sanitizePathComponent(testName)
       let snapshotFileUrl = snapshotDirectoryUrl
         .appendingPathComponent("\(testName).\(identifier)")
+        .appendingPathExtension(snapshotting.pathExtension ?? "")
+      let snapshotDiffFileUrl = artifactsSubUrl
+        .appendingPathComponent("\(testName).\(identifier).diff")
         .appendingPathExtension(snapshotting.pathExtension ?? "")
       let fileManager = FileManager.default
       try fileManager.createDirectory(at: snapshotDirectoryUrl, withIntermediateDirectories: true)
@@ -238,7 +240,7 @@ public func verifySnapshot<Value, Format>(
       guard var diffable = optionalDiffable else {
         return "Couldn't snapshot value"
       }
-      
+
       guard !recording, fileManager.fileExists(atPath: snapshotFileUrl.path) else {
         try snapshotting.diffing.toData(diffable).write(to: snapshotFileUrl)
         #if !os(Linux) && !os(Windows)
@@ -279,12 +281,16 @@ public func verifySnapshot<Value, Format>(
       }
       #endif
 
-      guard let (failure, attachments) = snapshotting.diffing.diff(reference, diffable) else {
+      guard let (failure, attachments, diffImage) = snapshotting.diffing.diff(reference, diffable) else {
         return nil
       }
 
       try fileManager.createDirectory(at: artifactsSubUrl, withIntermediateDirectories: true)
       let failedSnapshotFileUrl = artifactsSubUrl.appendingPathComponent(snapshotFileUrl.lastPathComponent)
+
+      if let imageData = diffImage?.pngData() {
+        try imageData.write(to: snapshotDiffFileUrl)
+      }
       try snapshotting.diffing.toData(diffable).write(to: failedSnapshotFileUrl)
 
       if !attachments.isEmpty {
